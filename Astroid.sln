@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Snak", "Snak\Snak.vcxproj", "{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Debug|x64.ActiveCfg = Debug|x64
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Debug|x64.Build.0 = Debug|x64
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Debug|x86.ActiveCfg = Debug|Win32
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Debug|x86.Build.0 = Debug|Win32
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Release|x64.ActiveCfg = Release|x64
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Release|x64.Build.0 = Release|x64
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Release|x86.ActiveCfg = Release|Win32
+		{66C5E1E9-274C-4527-AEF4-ADC14E059CAD}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0651793D-53EC-414B-B2D1-562D054109F2}
+	EndGlobalSection
+EndGlobal
