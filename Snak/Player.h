@@ -9,4 +9,4 @@ struct vaisseau {
     sfText* text;
 };
 
-void Move();
+void Move(player);

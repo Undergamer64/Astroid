@@ -40,7 +40,7 @@ int main() {
                                .y = height / 2,
                                .vitesse = 0,
                                .acceleration = 0,
-                               .angle = 0};
+                               .angle = -90};
     sfFont* font = sfFont_createFromFile("Arial.ttf");
     player.text = sfText_create();
     sfText_setFont(player.text, font);
@@ -48,6 +48,7 @@ int main() {
     snprintf(str_player, 2, "A");
     sfText_setString(player.text, str_player);
     sfText_setCharacterSize(player.text, width*100/1920);
+    sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
     //création du texte de score
     sfText* text_score = sfText_create();
@@ -62,16 +63,17 @@ int main() {
         sfEvent event;
         while (sfRenderWindow_pollEvent(window, &event)) {
             //si une fenêtre est fermer ou que echape est appuyer
-            if (event.type == sfEvtClosed || event.type == sfEvtKeyPressed && sfKeyboard_isKeyPressed(sfKeyEscape))
+            if (event.type == sfEvtClosed || (event.type == sfEvtKeyPressed && sfKeyboard_isKeyPressed(sfKeyEscape)))
                 //ferme le jeu
                 sfRenderWindow_close(window);
         }
 
         Delta(deltaclock);
 
-        Move(player);
+        Move(&player);
+
         sfText_setPosition(player.text, (sfVector2f) { player.x, player.y });
-        sfText_setRotation(player.text,player.angle);
+        sfText_setRotation(player.text,player.angle+90);
 
         //actualisation du score
         char str_score[15];
