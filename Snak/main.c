@@ -41,8 +41,8 @@ int main() {
     //création du vaisseau
     struct vaisseau player = { .x = width / 2,
                                .y = height / 2,
+                               .force = (sfVector2f){0,0},
                                .vitesse = 0,
-                               .acceleration = 0,
                                .angle = -90};
     sfFont* font = sfFont_createFromFile("Arial.ttf");
     player.text = sfText_create();

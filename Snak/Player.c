@@ -22,12 +22,19 @@ void Move(struct vaisseau player, int delta) {
 		player.angle = 0;
 	}
 	if (sfKeyboard_isKeyPressed(sfKeyUp)) {
-		player.vitesse += 3 * delta / 10000;
+		player.force.x += 0.5 * dirx * delta / 10000;
+		player.force.y += 0.5 * diry * delta / 10000;
 	}
-	player.x += player.vitesse * dirx;
-	player.y += player.vitesse * diry;
-	player.vitesse -= 0.5;
-	if (player.vitesse < 0) {
-		player.vitesse = 0;
+
+	player.x += player.force.x;
+	player.y += player.force.y;
+
+	float a_length = sqrt(player.force.x * player.force.x + player.force.y * player.force.y);
+	if (a_length != 0) {
+		float normalized_x = player.force.x / a_length;
+		float normalized_y = player.force.y / a_length;
+
+		player.force.x -= (0.2 * delta / 10000) * normalized_x ;
+		player.force.y -= (0.2 * delta / 10000) * normalized_y ;
 	}
 }
