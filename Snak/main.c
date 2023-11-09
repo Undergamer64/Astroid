@@ -74,6 +74,7 @@ int main() {
         delta = Delta(deltaclock);
 
         Move(&player,delta);
+        teleport(&player, height, width);
 
         sfText_setPosition(player.text, (sfVector2f) { player.x, player.y });
         sfText_setRotation(player.text,player.angle+90);

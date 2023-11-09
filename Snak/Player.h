@@ -10,3 +10,5 @@ struct vaisseau {
 };
 
 void Move(player);
+
+void teleport(player, height, width);
