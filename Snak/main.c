@@ -9,13 +9,15 @@
 typedef bool;
 #define true 1
 #define false 0
+#define PI 3.1415926535
 
-int delta;
 
-void Delta(sfClock* deltaclock) {
+
+int Delta(sfClock* deltaclock) {
     sfTime dtime = sfClock_getElapsedTime(deltaclock);
-    delta = sfTime_asMicroseconds(dtime);
+    int delta = sfTime_asMicroseconds(dtime);
     sfClock_restart(deltaclock);
+    return delta;
 }
 
 int main() {
@@ -27,6 +29,7 @@ int main() {
     srand(time(0));
 
     int score = 0;
+    int delta;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
@@ -68,9 +71,9 @@ int main() {
                 sfRenderWindow_close(window);
         }
 
-        Delta(deltaclock);
+        delta = Delta(deltaclock);
 
-        Move(&player);
+        Move(&player,delta);
 
         sfText_setPosition(player.text, (sfVector2f) { player.x, player.y });
         sfText_setRotation(player.text,player.angle+90);
