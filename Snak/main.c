@@ -66,9 +66,7 @@ int main() {
     sfFont* font = sfFont_createFromFile("Arial.ttf");
     player.text = sfText_create();
     sfText_setFont(player.text, font);
-    char str_player[2];
-    snprintf(str_player, 2, "A");
-    sfText_setString(player.text, str_player);
+    sfText_setString(player.text, "A");
     sfText_setCharacterSize(player.text, width*100/1920);
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 

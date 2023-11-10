@@ -9,4 +9,5 @@
 
 void Create_bullet(struct vaisseau player, struct bullet list_bullet[]) {
 	//creation de nouvelle balle
+
 }
