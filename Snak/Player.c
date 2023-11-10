@@ -11,13 +11,6 @@ void Move(struct vaisseau player, int delta) {
 	float dirx = cos(player.angle * PI / 180);
 	float diry = sin(player.angle * PI / 180);
 
-	if (fabs(player.force.x + player.vitesse * dirx * delta/10000) < fabs(1 * dirx * delta/10000)) {
-		player.force.x += player.vitesse * dirx * delta;
-	}
-	if (fabs(player.force.y + player.vitesse * diry * delta / 10000) < fabs(1 * diry * delta / 10000)) {
-		player.force.y += player.vitesse * diry * delta;
-	}
-
 	if (sfKeyboard_isKeyPressed(sfKeyRight)) {
 		player.angle += 5 * delta / 10000;
 
@@ -30,8 +23,12 @@ void Move(struct vaisseau player, int delta) {
 		player.angle = 0;
 	}
 	if (sfKeyboard_isKeyPressed(sfKeyUp)) {
-		player.force.x += 0.5 * dirx * delta / 10000;
-		player.force.y += 0.5 * diry * delta / 10000;
+		if (fabs(player.force.x + player.vitesse * dirx * delta / 10000) < fabs(10 * dirx * delta / 10000)) {
+			player.force.x += player.vitesse * dirx * delta / 10000;
+		}
+		if (fabs(player.force.y + player.vitesse * diry * delta / 10000) < fabs(10 * diry * delta / 10000)) {
+			player.force.y += player.vitesse * diry * delta / 10000;
+		}
 	}
 
 	player.x += player.force.x;
@@ -41,9 +38,18 @@ void Move(struct vaisseau player, int delta) {
 	if (a_length != 0) {
 		float normalized_x = player.force.x / a_length;
 		float normalized_y = player.force.y / a_length;
-
-		player.force.x -= (0.2 * delta / 10000) * normalized_x ;
-		player.force.y -= (0.2 * delta / 10000) * normalized_y ;
+		if (fabs(player.force.x) - fabs(0.05 * normalized_x) > 0) {
+			player.force.x -= (0.05 * delta / 10000) * normalized_x;
+		}
+		else {
+			player.force.x = 0;
+		}
+		if (fabs(player.force.y) - fabs(0.05 * normalized_y) > 0) {
+			player.force.y -= (0.05 * delta / 10000) * normalized_y;
+		}
+		else {
+			player.force.y = 0;
+		}
 	}
 }
 
