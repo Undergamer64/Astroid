@@ -21,9 +21,15 @@
     <ClCompile Include="Player.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
+      <Filter>Fichiers sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>

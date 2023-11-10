@@ -5,6 +5,7 @@
 #include <math.h>
 #include <Windows.h>
 #include "Player.h"
+#include "Bullet.h"
 
 typedef bool;
 #define true 1
@@ -19,6 +20,24 @@ int Delta(sfClock* deltaclock) {
     sfClock_restart(deltaclock);
     return delta;
 }
+
+void Draw(sfWindow* window,sfText* text_score,struct vaisseau player,struct bullet list_bullet[]) {
+    //efface tout
+    sfRenderWindow_clear(window, sfBlack);
+
+    //affiche le joueur
+    sfRenderWindow_drawText(window, player.text, NULL);
+
+    //affiche le score
+    sfRenderWindow_drawText(window, text_score, NULL);
+
+    //affiche la nouvelle frame de l'écran
+    sfRenderWindow_display(window);
+}
+
+
+
+
 
 int main() {
     //rend la console de commande invisible
@@ -53,6 +72,12 @@ int main() {
     sfText_setCharacterSize(player.text, width*100/1920);
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
+    //création d'un liste de balle
+    struct bullet list_bullet[4];
+    for (int i = 0; i < 4; i++) {
+        list_bullet[i].shape = sfRectangleShape_create();
+    }
+
     //création du texte de score
     sfText* text_score = sfText_create();
     sfText_setFont(text_score, font);
@@ -74,30 +99,21 @@ int main() {
         delta = Delta(deltaclock);
 
         Move(&player,delta);
-        teleport(&player, height, width);
-
-        sfText_setPosition(player.text, (sfVector2f) { player.x, player.y });
-        sfText_setRotation(player.text,player.angle+90);
+        Teleport(&player, height, width);
+        Shoot(&player, list_bullet);
 
         //actualisation du score
         char str_score[15];
         snprintf(str_score, 15, "Score : %d", score);
         sfText_setString(text_score, str_score);
-
-        //efface tout
-        sfRenderWindow_clear(window, sfBlack);
-
-        //affiche le joueur
-        sfRenderWindow_drawText(window, player.text, NULL);
-
-        //affiche le score
-        sfRenderWindow_drawText(window, text_score, NULL);
-
-        //affiche la nouvelle frame de l'écran
-        sfRenderWindow_display(window);
+        
+        Draw(window, text_score, player, list_bullet);
     }
 
     //détruit tous les élément créé
+    for (int i = 0; i < 4; i++) {
+        sfRectangleShape_destroy(list_bullet[i].shape);
+    }
     sfText_destroy(text_score);
     sfRenderWindow_destroy(window);
     sfClock_destroy(deltaclock);

@@ -11,4 +11,6 @@ struct vaisseau {
 
 void Move(player);
 
-void teleport(player, height, width);
+void Teleport(player, height, width);
+
+void Shoot(player, list_bullet);
