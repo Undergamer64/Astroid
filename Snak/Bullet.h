@@ -8,4 +8,6 @@ struct bullet {
     sfRectangleShape* shape;
 };
 
-void Create_bullet(player, list_bullet);
+void Create_bullet(player, list_bullet, size, nb_bullet);
+
+void Move_bullets(list_bullet, nb_bullet, delta);

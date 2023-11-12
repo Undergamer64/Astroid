@@ -9,7 +9,7 @@
 
 #define PI 3.1415926535
 
-void Move(struct vaisseau player, int delta) {
+void Move_player(struct vaisseau player, int delta) {
 	float dirx = cos(player.angle * PI / 180);
 	float diry = sin(player.angle * PI / 180);
 
@@ -63,23 +63,23 @@ void Move(struct vaisseau player, int delta) {
 	sfText_setRotation(player.text, player.angle + 90);
 }
 
-void Teleport(struct vaisseau player,int height, int width) {
-	if (player.x + player.force.x >= width + (sfText_getLocalBounds(player.text).width / 2)) {
+void Teleport(struct vaisseau player,int size[]) {
+	if (player.x + player.force.x >= size[0] + (sfText_getLocalBounds(player.text).width / 2)) {
 		player.x = -sfText_getLocalBounds(player.text).width / 2;
 	}
 	else if (player.x + player.force.x <= 0 - (sfText_getLocalBounds(player.text).width / 2)) {
-		player.x = width + (sfText_getLocalBounds(player.text).width / 2);
+		player.x = size[0] + (sfText_getLocalBounds(player.text).width / 2);
 	}
-	else if (player.y + player.force.y >= height + (sfText_getLocalBounds(player.text).height / 2)) {
+	else if (player.y + player.force.y >= size[1] + (sfText_getLocalBounds(player.text).height / 2)) {
 		player.y = -sfText_getLocalBounds(player.text).height / 2;
 	}
 	else if (player.y + player.force.y <= 0 - (sfText_getLocalBounds(player.text).height / 2)) {
-		player.y = height + (sfText_getLocalBounds(player.text).height / 2);
+		player.y = size[1] + (sfText_getLocalBounds(player.text).height / 2);
 	}
 }
 
-void Shoot(struct vaiseau* player, struct bullet list_bullet[]) {
-	if (sfKeyboard_isKeyPressed(sfKeySpace)) {
-		Create_bullet(&player, list_bullet);
+void Shoot(struct vaiseau *player, struct bullet list_bullet[], int size[], int nb_bullet) {
+	if (sfKeyboard_isKeyPressed(sfKeySpace) && nb_bullet <= 3) {
+		Create_bullet(player, list_bullet, size);
 	}
 }

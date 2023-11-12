@@ -21,12 +21,17 @@ int Delta(sfClock* deltaclock) {
     return delta;
 }
 
-void Draw(sfWindow* window,sfText* text_score,struct vaisseau player,struct bullet list_bullet[]) {
+void Draw(sfWindow* window,sfText* text_score,struct vaisseau player,struct bullet list_bullet[], int nb_bullet) {
     //efface tout
     sfRenderWindow_clear(window, sfBlack);
 
     //affiche le joueur
     sfRenderWindow_drawText(window, player.text, NULL);
+
+    //affiche les balles
+    for (int i = 0; i < nb_bullet; i++) {
+        sfRenderWindow_drawRectangleShape(window, list_bullet[i].shape, NULL);
+    }
 
     //affiche le score
     sfRenderWindow_drawText(window, text_score, NULL);
@@ -49,17 +54,17 @@ int main() {
 
     int score = 0;
     int delta;
+    int nb_bullet = 0;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
-    int width = mode.width;
-    int height = mode.height;
+    int size[2] = {mode.width, mode.height};
     sfRenderWindow* window = sfRenderWindow_create(mode, "CSFML Test", sfClose, NULL);
     sfWindow_setFramerateLimit(window, 60);
 
     //création du vaisseau
-    struct vaisseau player = { .x = width / 2,
-                               .y = height / 2,
+    struct vaisseau player = { .x = size[0] / 2,
+                               .y = size[1] / 2,
                                .force = (sfVector2f){0,0},
                                .vitesse = 0.5,
                                .angle = -90};
@@ -67,19 +72,16 @@ int main() {
     player.text = sfText_create();
     sfText_setFont(player.text, font);
     sfText_setString(player.text, "A");
-    sfText_setCharacterSize(player.text, width*100/1920);
+    sfText_setCharacterSize(player.text, size[0]*100/1920);
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
     //création d'un liste de balle
-    struct bullet list_bullet[4];
-    for (int i = 0; i < 4; i++) {
-        list_bullet[i].shape = sfRectangleShape_create();
-    }
+    struct bullet *list_bullet = malloc(sizeof(struct bullet) * 4);
 
     //création du texte de score
     sfText* text_score = sfText_create();
     sfText_setFont(text_score, font);
-    sfText_scale(text_score, (sfVector2f) { width/1920*1.5, height/1080*1.5 });
+    sfText_scale(text_score, (sfVector2f) { size[0]/1920*1.5, size[1]/1080*1.5 });
 
     //création des clocks
     sfClock* deltaclock = sfClock_create();
@@ -96,22 +98,25 @@ int main() {
 
         delta = Delta(deltaclock);
 
-        Move(&player,delta);
-        Teleport(&player, height, width);
-        Shoot(&player, list_bullet);
+        Move_player(&player,delta);
+        Teleport(&player, size);
+
+        Shoot(&player, list_bullet, size, nb_bullet);
+        Move_bullets(list_bullet, nb_bullet, delta);
 
         //actualisation du score
         char str_score[15];
         snprintf(str_score, 15, "Score : %d", score);
         sfText_setString(text_score, str_score);
         
-        Draw(window, text_score, player, list_bullet);
+        Draw(window, text_score, player, list_bullet, nb_bullet);
     }
 
     //détruit tous les élément créé
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < nb_bullet; i++) {
         sfRectangleShape_destroy(list_bullet[i].shape);
     }
+    free(list_bullet);
     sfText_destroy(text_score);
     sfRenderWindow_destroy(window);
     sfClock_destroy(deltaclock);

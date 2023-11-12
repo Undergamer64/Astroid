@@ -9,8 +9,8 @@ struct vaisseau {
     sfText* text;
 };
 
-void Move(player);
+void Move_player(player);
 
-void Teleport(player, height, width);
+void Teleport(player, size);
 
-void Shoot(player, list_bullet);
+void Shoot(player, list_bullet, size, nb_bullet);
