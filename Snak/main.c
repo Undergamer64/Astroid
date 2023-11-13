@@ -61,7 +61,7 @@ int main() {
 
     int score = 0;
     int delta;
-    int nb_bullet = 4;
+    int nb_bullet = 6;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
@@ -73,7 +73,7 @@ int main() {
     struct vaisseau player = { .x = size[0] / 2,
                                .y = size[1] / 2,
                                .force = (sfVector2f){0,0},
-                               .vitesse = 0.5,
+                               .vitesse = size[0]/4320.0,
                                .angle = -90};
     sfFont* font = sfFont_createFromFile("Arial.ttf");
     player.text = sfText_create();
@@ -83,11 +83,12 @@ int main() {
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
     //création d'un liste de balle
-    struct bullet list_bullet[4];
+    struct bullet list_bullet[6];
 
     for (int i = 0; i < nb_bullet; i++) {
         list_bullet[i].is_visible = 0;
         list_bullet[i].shape = sfRectangleShape_create();
+        list_bullet[i].lifetime = sfClock_create();
     }
     
     //création du texte de score
@@ -110,7 +111,7 @@ int main() {
 
         delta = Delta(deltaclock);
 
-        Move_player(&player,delta);
+        Move_player(&player,delta,size);
         Teleport(&player, size);
 
         Shoot(&player, list_bullet, size, nb_bullet);
@@ -122,6 +123,7 @@ int main() {
     //détruit tous les élément créé
     for (int i = 0; i < nb_bullet; i++) {
         sfRectangleShape_destroy(list_bullet[i].shape);
+        sfClock_destroy(list_bullet[i].lifetime);
     }
 
     sfText_destroy(text_score);

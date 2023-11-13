@@ -9,7 +9,9 @@
 
 #define PI 3.1415926535
 
-void Move_player(struct vaisseau player, int delta) {
+int pressed = 0;
+
+void Move_player(struct vaisseau player, int delta, int size[]) {
 	float dirx = cos(player.angle * PI / 180);
 	float diry = sin(player.angle * PI / 180);
 
@@ -45,14 +47,14 @@ void Move_player(struct vaisseau player, int delta) {
 	if (a_length != 0) {
 		float normalized_x = player.force.x / a_length;
 		float normalized_y = player.force.y / a_length;
-		if (fabs(player.force.x) - fabs(0.05 * normalized_x) > 0) {
-			player.force.x -= (0.05 * delta / 10000) * normalized_x;
+		if (fabs(player.force.x) - fabs((size[0] / 21600.0) * normalized_x) > 0) {
+			player.force.x -= ((size[0] / 21600.0) * delta / 10000) * normalized_x;
 		}
 		else {
 			player.force.x = 0;
 		}
-		if (fabs(player.force.y) - fabs(0.05 * normalized_y) > 0) {
-			player.force.y -= (0.05 * delta / 10000) * normalized_y;
+		if (fabs(player.force.y) - fabs((size[0] / 21600.0) * normalized_y) > 0) {
+			player.force.y -= ((size[0] / 21600.0) * delta / 10000) * normalized_y;
 		}
 		else {
 			player.force.y = 0;
@@ -80,6 +82,12 @@ void Teleport(struct vaisseau player,int size[]) {
 
 void Shoot(struct vaiseau *player, struct bullet list_bullet[], int size[], int nb_bullet) {
 	if (sfKeyboard_isKeyPressed(sfKeySpace)) {
-		Create_bullet(player, list_bullet, size, nb_bullet);
+		if (!pressed) {
+			pressed = 1;
+			Create_bullet(player, list_bullet, size, nb_bullet);
+		}
+	}
+	else if (pressed) {
+		pressed = 0;
 	}
 }

@@ -9,7 +9,7 @@ struct vaisseau {
     sfText* text;
 };
 
-void Move_player(player);
+void Move_player(player, delta, size);
 
 void Teleport(player, size);
 

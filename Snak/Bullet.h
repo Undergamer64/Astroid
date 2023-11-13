@@ -6,6 +6,7 @@ struct bullet {
     float vitesse;
     float angle;
     int is_visible;
+    sfClock* lifetime;
     sfRectangleShape* shape;
 };
 

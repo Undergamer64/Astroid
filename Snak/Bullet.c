@@ -9,7 +9,7 @@
 
 #define PI 3.1415926535
 
-int speed_bullet = 10;
+int speed_bullet = 15;
 
 void Create_bullet(struct vaisseau player, struct bullet list_bullet[], int size[], int nb_bullet) {
 	for (int i = 0; i < nb_bullet; i++) {
@@ -20,8 +20,9 @@ void Create_bullet(struct vaisseau player, struct bullet list_bullet[], int size
 			list_bullet[i].angle = player.angle;
 			list_bullet[i].vitesse = speed_bullet;
 			list_bullet[i].is_visible = 1;
-			sfRectangleShape_setSize(list_bullet[i].shape, (sfVector2f) { size[0] * 25 / 1920, size[0] * 25 / 1920 });
-			sfRectangleShape_setOrigin(list_bullet[i].shape, (sfVector2f) { size[0] * 12.5 / 1920, size[0] * 12.5 / 1920 });
+			sfClock_restart(list_bullet[i].lifetime);
+			sfRectangleShape_setSize(list_bullet[i].shape, (sfVector2f) { size[0] * 15 / 1920, size[0] * 15 / 1920 });
+			sfRectangleShape_setOrigin(list_bullet[i].shape, (sfVector2f) { size[0] * 7.5 / 1920, size[0] * 7.5 / 1920 });
 			sfRectangleShape_setRotation(list_bullet[i].shape, list_bullet[i].angle);
 			sfRectangleShape_setPosition(list_bullet[i].shape, (sfVector2f) { list_bullet[i].x, list_bullet[i].y });
 			break;
@@ -37,6 +38,10 @@ void Move_bullets(struct bullet list_bullet[], int nb_bullet, int delta) {
 
 			list_bullet[i].x += list_bullet[i].vitesse * dirx * delta / 10000;
 			list_bullet[i].y += list_bullet[i].vitesse * diry * delta / 10000;
+			
+			if (sfTime_asMicroseconds(sfClock_getElapsedTime(list_bullet[i].lifetime)) >= ((sfVideoMode_getDesktopMode().height/2.5) / speed_bullet)*10000) {
+				list_bullet[i].is_visible = 0;
+			}
 		}
 		sfRectangleShape_setPosition(list_bullet[i].shape, (sfVector2f) { list_bullet[i].x, list_bullet[i].y });
 	}
