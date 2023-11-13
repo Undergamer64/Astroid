@@ -21,7 +21,12 @@ int Delta(sfClock* deltaclock) {
     return delta;
 }
 
-void Draw(sfWindow* window,sfText* text_score,struct vaisseau player,struct bullet list_bullet[], int nb_bullet) {
+void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player,struct bullet list_bullet[], int nb_bullet) {
+    //actualisation du score
+    char str_score[15];
+    snprintf(str_score, 15, "Score : %d", score);
+    sfText_setString(text_score, str_score);
+    
     //efface tout
     sfRenderWindow_clear(window, sfBlack);
 
@@ -30,7 +35,9 @@ void Draw(sfWindow* window,sfText* text_score,struct vaisseau player,struct bull
 
     //affiche les balles
     for (int i = 0; i < nb_bullet; i++) {
-        sfRenderWindow_drawRectangleShape(window, list_bullet[i].shape, NULL);
+        if (list_bullet[i].is_visible) {
+            sfRenderWindow_drawRectangleShape(window, list_bullet[i].shape, NULL);
+        }
     }
 
     //affiche le score
@@ -54,7 +61,7 @@ int main() {
 
     int score = 0;
     int delta;
-    int nb_bullet = 0;
+    int nb_bullet = 4;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
@@ -76,8 +83,13 @@ int main() {
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
     //création d'un liste de balle
-    struct bullet *list_bullet = malloc(sizeof(struct bullet) * 4);
+    struct bullet list_bullet[4];
 
+    for (int i = 0; i < nb_bullet; i++) {
+        list_bullet[i].is_visible = 0;
+        list_bullet[i].shape = sfRectangleShape_create();
+    }
+    
     //création du texte de score
     sfText* text_score = sfText_create();
     sfText_setFont(text_score, font);
@@ -103,20 +115,15 @@ int main() {
 
         Shoot(&player, list_bullet, size, nb_bullet);
         Move_bullets(list_bullet, nb_bullet, delta);
-
-        //actualisation du score
-        char str_score[15];
-        snprintf(str_score, 15, "Score : %d", score);
-        sfText_setString(text_score, str_score);
         
-        Draw(window, text_score, player, list_bullet, nb_bullet);
+        Draw(window, score, text_score, player, list_bullet, nb_bullet);
     }
 
     //détruit tous les élément créé
     for (int i = 0; i < nb_bullet; i++) {
         sfRectangleShape_destroy(list_bullet[i].shape);
     }
-    free(list_bullet);
+
     sfText_destroy(text_score);
     sfRenderWindow_destroy(window);
     sfClock_destroy(deltaclock);

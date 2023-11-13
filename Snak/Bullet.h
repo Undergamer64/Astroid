@@ -5,6 +5,7 @@ struct bullet {
     float y;
     float vitesse;
     float angle;
+    int is_visible;
     sfRectangleShape* shape;
 };
 

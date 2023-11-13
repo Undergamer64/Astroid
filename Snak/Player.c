@@ -79,7 +79,7 @@ void Teleport(struct vaisseau player,int size[]) {
 }
 
 void Shoot(struct vaiseau *player, struct bullet list_bullet[], int size[], int nb_bullet) {
-	if (sfKeyboard_isKeyPressed(sfKeySpace) && nb_bullet <= 3) {
-		Create_bullet(player, list_bullet, size);
+	if (sfKeyboard_isKeyPressed(sfKeySpace)) {
+		Create_bullet(player, list_bullet, size, nb_bullet);
 	}
 }
