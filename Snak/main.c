@@ -11,7 +11,7 @@ typedef bool;
 #define true 1
 #define false 0
 #define PI 3.1415926535
-
+#define nb_bullet 6
 
 
 int Delta(sfClock* deltaclock) {
@@ -21,7 +21,7 @@ int Delta(sfClock* deltaclock) {
     return delta;
 }
 
-void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player,struct bullet list_bullet[], int nb_bullet) {
+void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player,struct bullet list_bullet[]) {
     //actualisation du score
     char str_score[15];
     snprintf(str_score, 15, "Score : %d", score);
@@ -47,10 +47,6 @@ void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player
     sfRenderWindow_display(window);
 }
 
-
-
-
-
 int main() {
     //rend la console de commande invisible
     HWND hwnd = GetConsoleWindow();
@@ -61,7 +57,6 @@ int main() {
 
     int score = 0;
     int delta;
-    int nb_bullet = 6;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
@@ -83,7 +78,7 @@ int main() {
     sfText_setOrigin(player.text, (sfVector2f) {sfText_getLocalBounds(player.text).width/2, sfText_getLocalBounds(player.text).height});
 
     //création d'un liste de balle
-    struct bullet list_bullet[6];
+    struct bullet list_bullet[nb_bullet];
 
     for (int i = 0; i < nb_bullet; i++) {
         list_bullet[i].is_visible = 0;
