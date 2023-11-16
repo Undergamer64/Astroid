@@ -92,3 +92,22 @@ void Shoot(struct vaiseau *player, struct bullet list_bullet[], int size[], int 
 		pressed = 0;
 	}
 }
+
+void Collision_joueur(struct vaisseau *player, struct asteroid list_asteroid[], int nb_asteroid, int size[]) {
+	for (int i = 0; i < nb_asteroid; i++) {
+		if (list_asteroid[i].type == 0) {
+			continue;
+		}
+		float dist_x = fabs(list_asteroid[i].x - player->x);
+		float dist_y = fabs(list_asteroid[i].y - player->y);
+		float dist = sqrtf(dist_x * dist_x + dist_y * dist_y);
+
+		if (dist <= (list_asteroid[i].type * 20) + (sfText_getLocalBounds(player->text).height / 2)) {
+			player->x = size[0] / 2;
+			player->y = size[1] / 2;
+			player->force = (sfVector2f){ 0,0 };
+			player->speed = size[1] / 4320.0;
+			player->angle = -90;
+		}
+	}
+}

@@ -61,7 +61,7 @@ void Collision_bullets(struct bullet list_bullet[], int nb_bullet, struct astero
 			float dist_y = fabs(list_asteroid[j].y - list_bullet[i].y);
 			float dist = sqrtf(dist_x * dist_x + dist_y * dist_y);
 			
-			if (dist <= list_asteroid[i].type * 20) {
+			if (dist <= ((float)list_asteroid[i].type * 20.0f) + ((float)size[0] * 15.0f / 1920.0f)/2.0f) {
 				float angle = list_asteroid[j].angle;
 				list_bullet[i].is_visible = 0;
  				*score += 100;

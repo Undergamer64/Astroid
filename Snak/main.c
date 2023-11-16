@@ -136,6 +136,7 @@ int main() {
         Teleport_asteroid(list_asteroid, nb_asteroid, size, delta);
 
         Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, size, &score);
+        Collision_joueur(&player, list_asteroid, nb_asteroid, size);
 
         Draw(window, score, text_score, player, list_bullet, list_asteroid);
     }
