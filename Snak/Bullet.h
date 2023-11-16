@@ -3,7 +3,7 @@
 struct bullet {
     float x;
     float y;
-    float vitesse;
+    float speed;
     float angle;
     int is_visible;
     sfClock* lifetime;
@@ -13,3 +13,5 @@ struct bullet {
 void Create_bullet(player, list_bullet, size, nb_bullet);
 
 void Move_bullets(list_bullet, nb_bullet, delta);
+
+void Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, size, score);

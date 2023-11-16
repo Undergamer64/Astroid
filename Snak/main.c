@@ -6,13 +6,14 @@
 #include <Windows.h>
 #include "Player.h"
 #include "Bullet.h"
+#include "Asteroid.h"
 
 typedef bool;
 #define true 1
 #define false 0
 #define PI 3.1415926535
 #define nb_bullet 6
-
+#define nb_asteroid 24
 
 int Delta(sfClock* deltaclock) {
     sfTime dtime = sfClock_getElapsedTime(deltaclock);
@@ -21,10 +22,10 @@ int Delta(sfClock* deltaclock) {
     return delta;
 }
 
-void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player,struct bullet list_bullet[]) {
+void Draw(sfWindow* window, int score, sfText* text_score, struct vaisseau player, struct bullet list_bullet[], struct asteroid list_asteroid[]) {
     //actualisation du score
-    char str_score[15];
-    snprintf(str_score, 15, "Score : %d", score);
+    char str_score[20];
+    snprintf(str_score, 20, "Score : %d", score);
     sfText_setString(text_score, str_score);
     
     //efface tout
@@ -37,6 +38,12 @@ void Draw(sfWindow* window, int score, sfText* text_score,struct vaisseau player
     for (int i = 0; i < nb_bullet; i++) {
         if (list_bullet[i].is_visible) {
             sfRenderWindow_drawRectangleShape(window, list_bullet[i].shape, NULL);
+        }
+    }
+
+    for (int i = 0; i < nb_asteroid; i++) {
+        if (list_asteroid[i].type > 0) {
+            sfRenderWindow_drawCircleShape(window, list_asteroid[i].shape, NULL);
         }
     }
 
@@ -68,7 +75,7 @@ int main() {
     struct vaisseau player = { .x = size[0] / 2,
                                .y = size[1] / 2,
                                .force = (sfVector2f){0,0},
-                               .vitesse = size[0]/4320.0,
+                               .speed = size[1]/4320.0,
                                .angle = -90};
     sfFont* font = sfFont_createFromFile("Arial.ttf");
     player.text = sfText_create();
@@ -86,6 +93,16 @@ int main() {
         list_bullet[i].lifetime = sfClock_create();
     }
     
+
+    struct asteroid list_asteroid[nb_asteroid];
+
+    for (int i = 0; i < nb_asteroid; i++) {
+        list_asteroid[i].type = 0;
+        list_asteroid[i].shape = sfCircleShape_create();
+        sfCircleShape_setFillColor(list_asteroid[i].shape, sfColor_fromRGB(127,127,127));
+    }
+
+
     //création du texte de score
     sfText* text_score = sfText_create();
     sfText_setFont(text_score, font);
@@ -107,12 +124,20 @@ int main() {
         delta = Delta(deltaclock);
 
         Move_player(&player,delta,size);
-        Teleport(&player, size);
+        Teleport_player(&player, size);
 
         Shoot(&player, list_bullet, size, nb_bullet);
         Move_bullets(list_bullet, nb_bullet, delta);
         
-        Draw(window, score, text_score, player, list_bullet, nb_bullet);
+        if (Are_all_dead(list_asteroid, nb_asteroid)) {
+            Create_asteroid(list_asteroid, nb_asteroid, size);
+        }
+        Move_asteroid(list_asteroid, nb_asteroid, delta, size);
+        Teleport_asteroid(list_asteroid, nb_asteroid, size, delta);
+
+        Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, size, &score);
+
+        Draw(window, score, text_score, player, list_bullet, list_asteroid);
     }
 
     //détruit tous les élément créé

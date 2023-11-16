@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include "Player.h"
 #include "Bullet.h"
+#include "Asteroid.h"
 
 #define PI 3.1415926535
 
@@ -27,11 +28,11 @@ void Move_player(struct vaisseau player, int delta, int size[]) {
 		player.angle = 0;
 	}
 	if (sfKeyboard_isKeyPressed(sfKeyUp) || sfKeyboard_isKeyPressed(sfKeyZ)) {
-		if (fabs(player.force.x + player.vitesse * dirx * delta / 10000) < fabs(10 * dirx * delta / 10000)) {
-			player.force.x += player.vitesse * dirx * delta / 10000;
+		if (fabs(player.force.x + player.speed * dirx * delta / 10000) < fabs((size[1] / 108) * dirx * delta / 10000)) {
+			player.force.x += player.speed * dirx * delta / 10000;
 		}
-		if (fabs(player.force.y + player.vitesse * diry * delta / 10000) < fabs(10 * diry * delta / 10000)) {
-			player.force.y += player.vitesse * diry * delta / 10000;
+		if (fabs(player.force.y + player.speed * diry * delta / 10000) < fabs((size[1] / 108) * diry * delta / 10000)) {
+			player.force.y += player.speed * diry * delta / 10000;
 		}
 
 	}
@@ -65,7 +66,7 @@ void Move_player(struct vaisseau player, int delta, int size[]) {
 	sfText_setRotation(player.text, player.angle + 90);
 }
 
-void Teleport(struct vaisseau player,int size[]) {
+void Teleport_player(struct vaisseau player,int size[]) {
 	if (player.x + player.force.x >= size[0] + (sfText_getLocalBounds(player.text).width / 2)) {
 		player.x = -sfText_getLocalBounds(player.text).width / 2;
 	}

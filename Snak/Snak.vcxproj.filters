@@ -24,12 +24,18 @@
     <ClCompile Include="Bullet.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Asteroid.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Fichiers sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroid.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>
