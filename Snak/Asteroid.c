@@ -74,7 +74,7 @@ void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[
 	}
 	for (int i = 0; i < nb_asteroid / (10-*wave); i++) {
 		list_asteroid[i].type = 3;
-		list_asteroid[i].speed = (rand() % speed_asteroid_max)+(float)difficulty/2.0;
+		list_asteroid[i].speed = (rand() % speed_asteroid_max);
 		int angle = (rand() % 70)+15;
 		
 		list_asteroid[i].angle = angle * ((rand()%3)+1);
