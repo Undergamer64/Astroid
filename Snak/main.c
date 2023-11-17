@@ -71,7 +71,7 @@ int main() {
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
     int size[2] = {mode.width, mode.height};
-    sfRenderWindow* window = sfRenderWindow_create(mode, "CSFML Test", sfClose, NULL);
+    sfRenderWindow* window = sfRenderWindow_create(mode, "CSFML Test", sfFullscreen, NULL);
     sfWindow_setFramerateLimit(window, 60);
 
     //création du vaisseau
