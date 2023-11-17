@@ -14,4 +14,4 @@ void Create_bullet(player, list_bullet, size, nb_bullet);
 
 void Move_bullets(list_bullet, nb_bullet, delta);
 
-void Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, size, score);
+void Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, player, size, score);

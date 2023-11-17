@@ -13,7 +13,7 @@ typedef bool;
 #define false 0
 #define PI 3.1415926535
 #define nb_bullet 6
-#define nb_asteroid 24
+#define nb_asteroid 80
 
 int Delta(sfClock* deltaclock) {
     sfTime dtime = sfClock_getElapsedTime(deltaclock);
@@ -64,6 +64,8 @@ int main() {
 
     int score = 0;
     int delta;
+    int difficulty = 1;
+    int wave = 0;
 
     //création de l'écran et ses coordonnés
     sfVideoMode mode = sfVideoMode_getDesktopMode();
@@ -130,12 +132,12 @@ int main() {
         Move_bullets(list_bullet, nb_bullet, delta);
         
         if (Are_all_dead(list_asteroid, nb_asteroid)) {
-            Create_asteroid(list_asteroid, nb_asteroid, size);
+            Create_asteroid(list_asteroid, nb_asteroid, size, difficulty, &wave);
         }
         Move_asteroid(list_asteroid, nb_asteroid, delta, size);
         Teleport_asteroid(list_asteroid, nb_asteroid, size, delta);
 
-        Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, size, &score);
+        Collision_bullets(list_bullet, nb_bullet, list_asteroid, nb_asteroid, player, size, &score);
         Collision_joueur(&player, list_asteroid, nb_asteroid, size);
 
         Draw(window, score, text_score, player, list_bullet, list_asteroid);

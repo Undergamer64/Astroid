@@ -17,6 +17,6 @@ void Teleport_asteroid(list_asteroid, nb_asteroid, size, delta);
 
 void Move_asteroid(list_asteroid, nb_asteroid, delta, size);
 
-void Create_asteroid(list_asteroid, nb_asteroid, size);
+void Create_asteroid(list_asteroid, nb_asteroid, size, difficulty, wave);
 
 void Division(list_asteroid, asteroid, angle, nb_asteroid);

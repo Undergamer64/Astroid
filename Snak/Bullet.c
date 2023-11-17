@@ -48,7 +48,7 @@ void Move_bullets(struct bullet list_bullet[], int nb_bullet, int delta) {
 	}
 }
 
-void Collision_bullets(struct bullet list_bullet[], int nb_bullet, struct asteroid list_asteroid[], int nb_asteroid, int size[], int *score) {
+void Collision_bullets(struct bullet list_bullet[], int nb_bullet, struct asteroid list_asteroid[], int nb_asteroid, struct vaisseau player, int size[], int *score) {
 	for (int i = 0; i < nb_bullet; i++) {
 		if (list_bullet[i].is_visible == 0) {
 			continue;
@@ -62,7 +62,10 @@ void Collision_bullets(struct bullet list_bullet[], int nb_bullet, struct astero
 			float dist = sqrtf(dist_x * dist_x + dist_y * dist_y);
 			
 			if (dist <= ((float)list_asteroid[i].type * 20.0f) + ((float)size[0] * 15.0f / 1920.0f)/2.0f) {
-				float angle = list_asteroid[j].angle;
+				dist_x = list_asteroid[j].x - player.x;
+				dist_y = list_asteroid[j].y - player.y;
+				float angle = (atan2f(dist_y,dist_x)*(180.0/PI));
+				printf("%f", angle);
 				list_bullet[i].is_visible = 0;
  				*score += 100;
 				Division(list_asteroid, j, angle, nb_asteroid);

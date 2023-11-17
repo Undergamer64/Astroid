@@ -67,12 +67,14 @@ void Teleport_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int siz
 	}
 }
 
-void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[]) {
-	int speed_asteroid_max = ((int) size[0] / 1080)*2;
-
-	for (int i = 0; i < nb_asteroid / 4; i++) {
+void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[], int difficulty, int *wave) {
+	int speed_asteroid_max = ((int) size[0] / 540)*difficulty;
+	if (*wave > 6) {
+		*wave = 6;
+	}
+	for (int i = 0; i < nb_asteroid / (10-*wave); i++) {
 		list_asteroid[i].type = 3;
-		list_asteroid[i].speed = (rand() % speed_asteroid_max)+1;
+		list_asteroid[i].speed = (rand() % speed_asteroid_max)+difficulty;
 		int angle = (rand() % 70)+15;
 		
 		list_asteroid[i].angle = angle * ((rand()%3)+1);
@@ -93,16 +95,16 @@ void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[
 			list_asteroid[i].y = Y;
 		}
 	}
+	*wave += 1;
 }
 
 void Division(struct asteroid list_asteroid[], int asteroid, float angle, int nb_asteroid) {
 	list_asteroid[asteroid].type -= 1;
-	float old_angle = list_asteroid[asteroid].angle;
-	list_asteroid[asteroid].angle = old_angle + (float)(rand()%90) - 45;
+	list_asteroid[asteroid].angle = angle + (float)(rand()%90) - 45;
 	int i_asteroid = First_slot(list_asteroid, nb_asteroid);
 	list_asteroid[i_asteroid].x = list_asteroid[asteroid].x;
 	list_asteroid[i_asteroid].y = list_asteroid[asteroid].y;
 	list_asteroid[i_asteroid].speed = list_asteroid[asteroid].speed;
 	list_asteroid[i_asteroid].type = list_asteroid[asteroid].type;
-	list_asteroid[i_asteroid].angle = old_angle + (float)(rand() % 90) - 45;
+	list_asteroid[i_asteroid].angle = angle + (float)(rand() % 90) - 45;
 }
