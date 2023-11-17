@@ -83,7 +83,6 @@ void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[
 		sfCircleShape_setOrigin(list_asteroid[i].shape, (sfVector2f) { list_asteroid[i].type * 20 * size[0] / 1080, list_asteroid[i].type * 20 * size[0] / 1080});
 
 		int temp = rand() % 2;
-		printf("%d", temp);
 		if (temp == 1) {
 			int X = rand() % size[0];
 			list_asteroid[i].x = X;
@@ -100,7 +99,6 @@ void Create_asteroid(struct asteroid list_asteroid[], int nb_asteroid, int size[
 
 void Division(struct asteroid list_asteroid[], int asteroid, float *angle, int nb_asteroid) {
 	list_asteroid[asteroid].type -= 1;
-	printf("%f\n", *angle);
 	list_asteroid[asteroid].angle = *angle + (float)(rand() % 90) - 22.5;
 	int i_asteroid = First_slot(list_asteroid, nb_asteroid);
 	list_asteroid[i_asteroid].x = list_asteroid[asteroid].x;
