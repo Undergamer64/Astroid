@@ -1,6 +1,6 @@
 #pragma once
 
-struct vaisseau {
+struct Ship {
     float x;
     float y;
     sfVector2f force;

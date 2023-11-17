@@ -134,11 +134,13 @@
     <ClCompile Include="Asteroid.c" />
     <ClCompile Include="Bullet.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Menu.c" />
     <ClCompile Include="Player.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

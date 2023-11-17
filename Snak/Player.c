@@ -12,7 +12,7 @@
 
 int pressed = 0;
 
-void Move_player(struct vaisseau player, int delta, int size[]) {
+void Move_player(struct Ship player, int delta, int size[]) {
 	float dirx = cos(player.angle * PI / 180);
 	float diry = sin(player.angle * PI / 180);
 
@@ -66,7 +66,7 @@ void Move_player(struct vaisseau player, int delta, int size[]) {
 	sfText_setRotation(player.text, player.angle + 90);
 }
 
-void Teleport_player(struct vaisseau player,int size[]) {
+void Teleport_player(struct Ship player,int size[]) {
 	if (player.x + player.force.x >= size[0] + (sfText_getLocalBounds(player.text).width / 2)) {
 		player.x = -sfText_getLocalBounds(player.text).width / 2;
 	}
@@ -93,7 +93,7 @@ void Shoot(struct vaiseau *player, struct bullet list_bullet[], int size[], int 
 	}
 }
 
-void Collision_joueur(struct vaisseau *player, struct asteroid list_asteroid[], int nb_asteroid, int size[]) {
+void Collision_joueur(struct Ship *player, struct asteroid list_asteroid[], int nb_asteroid, int size[]) {
 	for (int i = 0; i < nb_asteroid; i++) {
 		if (list_asteroid[i].type == 0) {
 			continue;
